@@ -15,40 +15,40 @@ var scrollDirection, $ = jQuery;
 
 		var config = $.extend( {}, defaults, opts );
 
-	    $(this).on('click', function(e){
-	    	var eventVal = e;
-	    	e.preventDefault();
+			$(this).on('click', function(e){
+				var eventVal = e;
+				e.preventDefault();
 
-	    	var $section = $(document).find( $(this).data('section') );
-	    	if ( $section.length < 1 ) {
-	    		return false;
-	    	}
+				var $section = $(document).find( $(this).data('section') );
+				if ( $section.length < 1 ) {
+					return false;
+				}
 
-	        if ( $('html, body').is(':animated') ) {
-	            $('html, body').stop( true, true );
-	        }
+					if ( $('html, body').is(':animated') ) {
+							$('html, body').stop( true, true );
+					}
 
-	        var scrollPos = $section.offset().top;
+					var scrollPos = $section.offset().top;
 
-	        if ( $(window).scrollTop() == ( scrollPos + config.topSpace ) ) {
-	        	return false;
-	        }
+					if ( $(window).scrollTop() == ( scrollPos + config.topSpace ) ) {
+						return false;
+					}
 
-	        config.callbackBeforeTransition(eventVal, $section);
+					config.callbackBeforeTransition(eventVal, $section);
 
-	        var newScrollPos = (scrollPos - config.topSpace);
+					var newScrollPos = (scrollPos - config.topSpace);
 
-	        $('html, body').animate({
-	            'scrollTop' : ( newScrollPos+'px' )
-	        }, config.animationTime, config.easing, function(){
-	        	config.callbackAfterTransition(eventVal, $section);
-	        });
+					$('html, body').animate({
+							'scrollTop' : ( newScrollPos+'px' )
+					}, config.animationTime, config.easing, function(){
+						config.callbackAfterTransition(eventVal, $section);
+					});
 
-	        return $(this);
-	    });
+					return $(this);
+			});
 
-	    $(this).data('scrollOps', config);
-	    return $(this);
+			$(this).data('scrollOps', config);
+			return $(this);
 	};
 }(jQuery));
 
@@ -239,10 +239,10 @@ $(document).ready(function($){
 	});
 
 	// Animate scrolling on hire me button
-    $('.hire-me-btn').on('click', function(e) {
-        e.preventDefault();
-        $('html, body').animate({scrollTop: $("#contact").offset().top}, 500);
-    });
+		$('.hire-me-btn').on('click', function(e) {
+				e.preventDefault();
+				$('html, body').animate({scrollTop: $("#contact").offset().top}, 500);
+		});
 
 
 
@@ -334,11 +334,11 @@ $(document).ready(function($){
 			return publicFuns;
 		}
 
-	    $.fn.menu = function( options ){
-	        var $element = this.first();
-	        var menuFuns = new Menu( $element, options );
-	        return menuFuns;
-	    };
+			$.fn.menu = function( options ){
+					var $element = this.first();
+					var menuFuns = new Menu( $element, options );
+					return menuFuns;
+			};
 
 	})();
 
@@ -355,7 +355,7 @@ $(document).ready(function($){
 	/* Choose your navigation style */
 
 	//menuFun.intelligent_menu(); // Hide intelligently
- 	menuFun.fixed_menu(); // Always fixed
+	menuFun.fixed_menu(); // Always fixed
 	// menuFun.mobile_intelligent_menu(); // Hide on Mobile Devices
 
 
@@ -405,165 +405,177 @@ $(document).ready(function($){
 
 	}());
 
+	var map;
+	const googleMapKey = config.googleMapKey;
 
+	function initMap() {
+		var uluru = {lat: 30.265588, lng: -97.741736};
+		var map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 4,
+			center: uluru
+		});
+		var marker = new google.maps.Marker({
+			position: uluru,
+			map: map
+		});
+	}
 
-
-
-
-
-
-
+	var js_file 	= document.createElement('script');
+	js_file.type 	= 'text/javascript';
+	js_file.src 	= `https://maps.googleapis.com/maps/api/js?key=${googleMapKey}&callback=initMap`;
+	js_file.id 		= "mapScript";
+	console.log(googleMapKey)
+	document.getElementsByTagName('head')[0].appendChild(js_file);
 
 	// Map
-	var mapStyle = [
-	    {
-	        "featureType": "landscape",
-	        "stylers": [
-	            {
-	                "saturation": -100
-	            },
-	            {
-	                "lightness": 50
-	            },
-	            {
-	                "visibility": "on"
-	            }
-	        ]
-	    },
-	    {
-	        "featureType": "poi",
-	        "stylers": [
-	            {
-	                "saturation": -100
-	            },
-	            {
-	                "lightness": 40
-	            },
-	            {
-	                "visibility": "simplified"
-	            }
-	        ]
-	    },
-	    {
-	        "featureType": "road.highway",
-	        "stylers": [
-	            {
-	                "saturation": -100
-	            },
-	            {
-	                "visibility": "simplified"
-	            }
-	        ]
-	    },
-	    {
-	        "featureType": "road.arterial",
-	        "stylers": [
-	            {
-	                "saturation": -100
-	            },
-	            {
-	                "lightness": 20
-	            },
-	            {
-	                "visibility": "on"
-	            }
-	        ]
-	    },
-	    {
-	        "featureType": "road.local",
-	        "stylers": [
-	            {
-	                "saturation": -100
-	            },
-	            {
-	                "lightness": 30
-	            },
-	            {
-	                "visibility": "on"
-	            }
-	        ]
-	    },
-	    {
-	        "featureType": "transit",
-	        "stylers": [
-	            {
-	                "saturation": -100
-	            },
-	            {
-	                "visibility": "simplified"
-	            }
-	        ]
-	    },
-	    {
-	        "featureType": "administrative.province",
-	        "stylers": [
-	            {
-	                "visibility": "off"
-	            }
-	        ]
-	    },
-	    {
-	        "featureType": "water",
-	        "elementType": "labels",
-	        "stylers": [
-	            {
-	                "visibility": "on"
-	            },
-	            {
-	                "lightness": -0
-	            },
-	            {
-	                "saturation": -0
-	            }
-	        ]
-	    },
-	    {
-	        "featureType": "water",
-	        "elementType": "geometry",
-	        "stylers": [
-	            {
-	                "hue": "#00baff"
-	            },
-	            {
-	                "lightness": -10
-	            },
-	            {
-	                "saturation": -95
-	            }
-	        ]
-	    }
-	];
+	// var mapStyle = [
+	// 		{
+	// 				"featureType": "landscape",
+	// 				"stylers": [
+	// 						{
+	// 								"saturation": -100
+	// 						},
+	// 						{
+	// 								"lightness": 50
+	// 						},
+	// 						{
+	// 								"visibility": "on"
+	// 						}
+	// 				]
+	// 		},
+	// 		{
+	// 				"featureType": "poi",
+	// 				"stylers": [
+	// 						{
+	// 								"saturation": -100
+	// 						},
+	// 						{
+	// 								"lightness": 40
+	// 						},
+	// 						{
+	// 								"visibility": "simplified"
+	// 						}
+	// 				]
+	// 		},
+	// 		{
+	// 				"featureType": "road.highway",
+	// 				"stylers": [
+	// 						{
+	// 								"saturation": -100
+	// 						},
+	// 						{
+	// 								"visibility": "simplified"
+	// 						}
+	// 				]
+	// 		},
+	// 		{
+	// 				"featureType": "road.arterial",
+	// 				"stylers": [
+	// 						{
+	// 								"saturation": -100
+	// 						},
+	// 						{
+	// 								"lightness": 20
+	// 						},
+	// 						{
+	// 								"visibility": "on"
+	// 						}
+	// 				]
+	// 		},
+	// 		{
+	// 				"featureType": "road.local",
+	// 				"stylers": [
+	// 						{
+	// 								"saturation": -100
+	// 						},
+	// 						{
+	// 								"lightness": 30
+	// 						},
+	// 						{
+	// 								"visibility": "on"
+	// 						}
+	// 				]
+	// 		},
+	// 		{
+	// 				"featureType": "transit",
+	// 				"stylers": [
+	// 						{
+	// 								"saturation": -100
+	// 						},
+	// 						{
+	// 								"visibility": "simplified"
+	// 						}
+	// 				]
+	// 		},
+	// 		{
+	// 				"featureType": "administrative.province",
+	// 				"stylers": [
+	// 						{
+	// 								"visibility": "off"
+	// 						}
+	// 				]
+	// 		},
+	// 		{
+	// 				"featureType": "water",
+	// 				"elementType": "labels",
+	// 				"stylers": [
+	// 						{
+	// 								"visibility": "on"
+	// 						},
+	// 						{
+	// 								"lightness": -0
+	// 						},
+	// 						{
+	// 								"saturation": -0
+	// 						}
+	// 				]
+	// 		},
+	// 		{
+	// 				"featureType": "water",
+	// 				"elementType": "geometry",
+	// 				"stylers": [
+	// 						{
+	// 								"hue": "#00baff"
+	// 						},
+	// 						{
+	// 								"lightness": -10
+	// 						},
+	// 						{
+	// 								"saturation": -95
+	// 						}
+	// 				]
+	// 		}
+	// ];
 
-	var $mapWrapper = $('#map'), draggableOp;
+	// var $mapWrapper = $('#map'), draggableOp;
 
+	// if ( jQuery.browser.mobile === true ) {
+	// 	draggableOp = false;
+	// } else {
+	// 	draggableOp = true;
+	// }
 
-	if ( jQuery.browser.mobile === true ) {
-		draggableOp = false;
-	} else {
-		draggableOp = true;
-	}
+	// if ( $mapWrapper.length > 0 ) {
+	// 	var map = new GMaps({
+	// 		div: '#map',
+	// 		lat : 30.265588,
+	// 		lng : -97.741736,
+	// 		scrollwheel: false,
+	// 		draggable: draggableOp,
+	// 		zoom: 16,
+	// 		disableDefaultUI: true,
+	// 		styles : mapStyle
+	// 	});
 
-	if ( $mapWrapper.length > 0 ) {
-		var map = new GMaps({
-			div: '#map',
-			lat : 30.265588,
-			lng : -97.741736,
-			scrollwheel: false,
-			draggable: draggableOp,
-			zoom: 16,
-			disableDefaultUI: true,
-			styles : mapStyle
-		});
-
-		map.addMarker({
-			lat : 30.265588,
-			lng : -97.741736,
-			icon: 'images/marker-icon.png',
-			infoWindow: {
-				content: '<p>BD InfoSys Ltd, Dhaka, Bangladesh</p>'
-			}
-		});
-	}
+	// 	map.addMarker({
+	// 		lat : 30.265588,
+	// 		lng : -97.741736,
+	// 		icon: 'images/marker-icon.png',
+	// 		infoWindow: {
+	// 			content: '<p>BD InfoSys Ltd, Dhaka, Bangladesh</p>'
+	// 		}
+	// 	});
+	// }
 
 }(jQuery));
 
