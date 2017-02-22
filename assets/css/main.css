@@ -993,7 +993,6 @@ header.nav.hide-menu {
 .protfolio-item {
     margin-bottom: 50px;
     display: block;
-
 }
 
 *, *:after, *:before {
@@ -1040,7 +1039,12 @@ header.nav.hide-menu {
 }
 
 .protfolio-image img {
+    vertical-align: top;
+    padding: 0;
     display: block;
+    height: 220px;
+    width: 100%;
+    margin-left: 10px;
 }
 
 .protfolio-content {
