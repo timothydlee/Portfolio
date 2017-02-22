@@ -1044,7 +1044,8 @@ header.nav.hide-menu {
     display: block;
     height: 220px;
     width: 100%;
-    margin-left: 10px;
+    margin-left: 20px;
+    margin-top: 20px;
 }
 
 .protfolio-content {
